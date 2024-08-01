@@ -8,7 +8,7 @@ from django.db.models import Q
 from .models import Blog, Comment, Tag
 from django.conf import settings
 from django.core.paginator import Paginator
-
+import os
 
 
 def signup(request):
@@ -78,7 +78,6 @@ def share_blog(request, id):
     blog = get_object_or_404(Blog, id=id)
     sent = False
     error = None
-    
     if request.method == 'POST':
         recipient_email = request.POST.get('email')
         if recipient_email:
@@ -89,8 +88,8 @@ def share_blog(request, id):
                 sent = True
             except Exception as e:
                 error = str(e)
-    
     return render(request, 'blog/share_blog.html', {'blog': blog, 'sent': sent, 'error': error})
+
 
 
 @login_required

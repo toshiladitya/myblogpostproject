@@ -7,6 +7,9 @@
 {% if sent %}
     <p>Email sent successfully!</p>
 {% endif %}
+{% if error %}
+    <p style="color: red;">Error: {{ error }}</p>
+{% endif %}
 <form method="post">
     {% csrf_token %}
     <input type="email" name="email" placeholder="Recipient's email" required>
