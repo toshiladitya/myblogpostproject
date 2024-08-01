@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ blog.title }}</h1>
+<p>{{ blog.content }}</p>
+<h2>Comments</h2>
+<form method="post" action="{% url 'add_comment' blog.id %}">
+    {% csrf_token %}
+    <textarea name="content" placeholder="Add a comment..."></textarea>
+    <button type="submit">Add Comment</button>
+</form>
+<ul>
+    {% for comment in comments %}
+        <li>
+            {{ comment.content }} by {{ comment.author }}
+            <a href="{% url 'like_comment' comment.id %}">
+                {% if user in comment.likes.all %}Unlike{% else %}Like{% endif %}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'share_blog' blog.id %}">Share this blog</a>
+{% endblock %}

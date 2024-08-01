@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+<h1>Blog List</h1>
+
+<!-- Tag Filtering Form -->
+<form method="get" action="{% url 'blog_list' %}">
+    <label for="tag">Filter by tag:</label>
+    <select name="tag" id="tag">
+        <option value="">-- All Tags --</option>
+        {% for tag in tags %}
+            <option value="{{ tag.name }}" {% if tag.name == request.GET.tag %}selected{% endif %}>
+                {{ tag.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<!-- Blog List -->
+<ul>
+    {% for blog in blogs %}
+        <li><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></li>
+    {% empty %}
+        <li>No blogs found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

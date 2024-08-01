@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+<h1>Blog List</h1>
+<form method="get" action="{% url 'blog_list' %}">
+    <label for="tag">Filter by tag:</label>
+    <select name="tag" id="tag">
+        <option value="">-- All Tags --</option>
+        {% for tag in tags %}
+            <option value="{{ tag.name }}" {% if tag.name == request.GET.tag %}selected{% endif %}>
+                {{ tag.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+<ul>
+    {% for blog in page_obj %}
+        <li><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></li>
+    {% empty %}
+        <li>No blogs available.</li>
+    {% endfor %}
+</ul>
+
+<!-- Pagination controls -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page=1">&laquo; first</a>
+            <a href="?{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page={{ page_obj.previous_page_number }}">previous</a>
+        {% else %}
+            <span class="disabled">&laquo; first</span>
+            <span class="disabled">previous</span>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page={{ page_obj.next_page_number }}">next</a>
+            <a href="?{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% else %}
+            <span class="disabled">next</span>
+            <span class="disabled">last &raquo;</span>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

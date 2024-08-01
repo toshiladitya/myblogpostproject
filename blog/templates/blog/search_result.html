@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h1>Search Results</h1>
+<ul>
+    {% for blog in results %}
+        <li><a href="{% url 'blog_detail' blog.id %}">{{ blog.title }}</a></li>
+    {% empty %}
+        <li>No blogs found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
