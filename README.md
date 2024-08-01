@@ -23,7 +23,7 @@ A simple Django-based blog application that allows users to create, view, filter
 
    ```bash
    git clone https://github.com/toshiladitya/myblogpostproject.git
-   cd myblogpostprojec
+   cd myblogpostproject
 Set Up a Virtual Environment
 
 bash
